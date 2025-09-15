@@ -1,3 +1,0 @@
-[console_scripts]
-text_to_cmd_vel = py_pubsub.text_to_cmd_vel:main
-
