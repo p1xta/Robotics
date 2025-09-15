@@ -1,2 +1,0 @@
-Invoking command in '/home/p1xta/Robotics/Task2/ex09/build/full_name_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/p1xta/Robotics/Task2/ex09/full_name_interfaces -DCMAKE_INSTALL_PREFIX=/home/p1xta/Robotics/Task2/ex09/install/full_name_interfaces
-Invoked command in '/home/p1xta/Robotics/Task2/ex09/build/full_name_interfaces' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/p1xta/Robotics/Task2/ex09/full_name_interfaces -DCMAKE_INSTALL_PREFIX=/home/p1xta/Robotics/Task2/ex09/install/full_name_interfaces
