@@ -1,7 +1,0 @@
-{
-  "package_name": "full_name_interfaces",
-  "non_idl_tuples": [
-    "/home/p1xta/Robotics/Task2/ex09/full_name_interfaces:msg/FullNameMessage.msg",
-    "/home/p1xta/Robotics/Task2/ex09/full_name_interfaces:srv/FullNameSumService.srv"
-  ]
-}
