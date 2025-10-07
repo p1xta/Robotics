@@ -54,14 +54,14 @@ class CleaningActionServer(Node):
 
         if goal.task_type == "clean_square":
             size = goal.area_size
-            robot_size = 1.0
+            robot_size = 0.5
             n_parts = int(size / robot_size)
             part_width = size / n_parts
             self._turn_to_angle(0)
             
             for strip in range(n_parts+1):
                 self._move_to_point(start_x + size * (strip % 2 == 0), self.pose.y)
-                self.distance_travelled += size * (strip % 2 == 0)
+                self.distance_travelled += size
                 self.cleaned_points += 1
                 
                 if strip < n_parts:
@@ -75,33 +75,8 @@ class CleaningActionServer(Node):
                         self._turn_to_angle(0)
                 feedback_msg.current_cleaned_points = self.cleaned_points
                 feedback_msg.progress_percent = int((strip + 1) / (n_parts+1) * 100)
-                self.goal_request.publish_feedback(feedback_msg)
-
-        elif goal.task_type == "clean_circle":
-            radius = goal.area_size
-            center_x = self.pose.x
-            center_y = self.pose.y
-            
-            robot_size = 1.0
-            max_radius = radius
-            current_radius = 0.0
-            angle_step = 0.1
-            
-            self._turn_to_angle(0)
-            current_angle = 0.0
-            
-            while current_radius <= max_radius:
-                target_x = center_x + current_radius * math.cos(current_angle)
-                target_y = center_y + current_radius * math.sin(current_angle)
-                
-                self._move_to_point(target_x, target_y)
-                
-                current_angle += angle_step
-                current_radius = (robot_size / (2 * math.pi)) * current_angle
-                
-                self.cleaned_points += 1
-                feedback_msg.current_cleaned_points = self.cleaned_points
-                feedback_msg.progress_percent = int(min((current_radius / max_radius) * 100, 100.0))
+                feedback_msg.current_x = self.pose.x
+                feedback_msg.current_y = self.pose.y
                 self.goal_request.publish_feedback(feedback_msg)
 
         elif goal.task_type == "return_home":

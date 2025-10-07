@@ -8,15 +8,30 @@ class CleaningActionClient(Node):
     def __init__(self):
         super().__init__('cleaning_action_client')
         self._action_client = ActionClient(self, CleaningTask, 'cleaning_task')
+        self.tasks = [
+            ("clean_square", 3.0, 0.0, 0.0),
+            ("return_home", 0.0, 2.5, 7.6)
+        ]
+        self.current_task = 0
+        self.goal_in_progress = False
 
-    def send_goal(self, task_type, area_size=0.0, target_x=0.0, target_y=0.0):
+    def send_goal(self):
+        if self.goal_in_progress:
+            return
+        if self.current_task >= len(self.tasks):
+            self.get_logger().info("All tasks completed!")
+            rclpy.shutdown()
+            return
+        task_type, area_size, target_x, target_y = self.tasks[self.current_task]
         goal_msg = CleaningTask.Goal()
         goal_msg.task_type = task_type
         goal_msg.area_size = area_size
         goal_msg.target_x = target_x
         goal_msg.target_y = target_y
 
+        self.goal_in_progress = True
         self._action_client.wait_for_server()
+
         self._send_goal_future = self._action_client.send_goal_async(
             goal_msg,
             feedback_callback=self.feedback_callback
@@ -27,6 +42,7 @@ class CleaningActionClient(Node):
         goal_handle = future.result()
         if not goal_handle.accepted:
             self.get_logger().info('Goal rejected')
+            self.goal_in_progress = False
             return
 
         self.get_logger().info('Goal accepted')
@@ -47,14 +63,16 @@ class CleaningActionClient(Node):
             f'Result: success={result.success}, '
             f'points={result.cleaned_points}, distance={result.total_distance:.2f}'
         )
-        rclpy.shutdown()
+        self.goal_in_progress = False
+        self.current_task += 1
+        self.send_goal()
 
 
 def main(args=None):
     rclpy.init(args=args)
     node = CleaningActionClient()
+    node.send_goal()
 
-    # node.send_goal("clean_square", area_size=3.0)
     rclpy.spin(node)
 
 
