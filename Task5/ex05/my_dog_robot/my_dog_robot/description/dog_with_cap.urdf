@@ -1,0 +1,446 @@
+<?xml version="1.0"?>
+<robot name="dog">
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="yellow">
+    <color rgba="1 0.9 0 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <link name="base_link">
+    <origin xyz="0 0 0"/>
+  </link>
+
+  <joint name="base_to_body" type="fixed">
+    <parent link="base_link"/>
+    <child link="body"/>
+    <origin xyz="0 0 0.25"/>
+  </joint>
+
+  <!-- Тело -->
+  <link name="body">
+    <visual>
+      <geometry>
+        <cylinder length="0.73" radius="0.15"/>
+      </geometry>
+      <origin rpy="0 1.5708 0" xyz="0 0 0.25"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.8" radius="0.15"/>
+      </geometry>
+      <origin rpy="0 1.5708 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="8"/>
+      <inertia ixx="0.5" ixy="0.0" ixz="0.0" iyy="0.5" iyz="0.0" izz="0.5"/>
+    </inertial>
+  </link>
+
+  <!-- Голова -->
+  <link name="head">
+    <visual>
+      <geometry>
+        <sphere radius="0.12"/>
+      </geometry>
+      <origin xyz="0 0 0"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.12"/>
+      </geometry>
+      <origin xyz="0 0 0.06"/>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.02" ixy="0.0" ixz="0.0" iyy="0.02" iyz="0.0" izz="0.02"/>
+    </inertial>
+  </link>
+
+  <joint name="neck_joint" type="revolute">
+    <parent link="body"/>
+    <child link="head"/>
+    <origin xyz="0.3 0 0.5"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
+  </joint>
+
+  <link name="nose">
+    <visual>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <joint name="tonose" type="fixed">
+    <parent link="head"/>
+    <child link="nose"/>
+    <origin xyz="0.12 0 -0.02"/>
+  </joint>
+
+  <!-- Кепка -->
+  <link name="cap">
+    <visual>
+      <geometry>
+        <cylinder radius="0.11" length="0.04"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="tocap" type="fixed">
+    <parent link="head"/>
+    <child link="cap"/>
+    <origin xyz="0 0 0.1"/>
+  </joint>
+
+  <link name="visor">
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.01"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <joint name="tovisor" type="fixed">
+    <parent link="cap"/>
+    <child link="visor"/>
+    <origin xyz="0.1 0 -0.015"/>
+  </joint>
+
+  <!-- Пропеллер -->
+  <link name="holder">
+    <visual>
+      <geometry>
+        <cylinder radius="0.01" length="0.03"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+    <inertial>
+      <mass value="0.05"/>
+      <inertia ixx="0.000005" ixy="0.0" ixz="0.0" iyy="0.000005" iyz="0.0" izz="0.0000025"/>
+    </inertial>
+  </link>
+
+  <joint name="toholder" type="continuous">
+    <parent link="cap"/>
+    <child link="holder"/>
+    <origin xyz="0 0 0.03"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+
+  <link name="fan1">
+    <visual>
+      <geometry>
+        <box size="0.1 0.02 0.01"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+    <inertial>
+      <mass value="0.02"/>
+      <inertia ixx="0.000005" ixy="0.0" ixz="0.0" iyy="0.000005" iyz="0.0" izz="0.0000025"/>
+    </inertial>
+  </link>
+
+  <joint name="tofan1" type="fixed">
+    <parent link="holder"/>
+    <child link="fan1"/>
+    <origin xyz="0 0 0.01" rpy="0 0 1.57"/>
+  </joint>
+
+  <link name="fan2">
+    <visual>
+      <geometry>
+        <box size="0.1 0.02 0.01"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+    <inertial>
+      <mass value="0.02"/>
+      <inertia ixx="0.000005" ixy="0.0" ixz="0.0" iyy="0.000005" iyz="0.0" izz="0.0000025"/>
+    </inertial>
+  </link>
+
+  <joint name="tofan2" type="fixed">
+    <parent link="holder"/>
+    <child link="fan2"/>
+    <origin xyz="0 0 0.01" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Лапы -->
+  <link name="front_left_leg">
+    <visual>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.03"/>
+    </inertial>
+  </link>
+
+  <joint name="front_left_leg_joint" type="fixed">
+    <parent link="body"/>
+    <child link="front_left_leg"/>
+    <origin xyz="0.3 0.1 0.2"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="front_right_leg">
+    <visual>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.03"/>
+    </inertial>
+  </link>
+
+  <joint name="front_right_leg_joint" type="fixed">
+    <parent link="body"/>
+    <child link="front_right_leg"/>
+    <origin xyz="0.3 -0.1 0.2"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="5" velocity="1"/>
+  </joint>
+
+  <link name="rear_left_leg">
+    <visual>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.03"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_left_leg_joint" type="fixed">
+    <parent link="body"/>
+    <child link="rear_left_leg"/>
+    <origin xyz="-0.3 0.1 0.2"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="5" velocity="1"/>
+  </joint>
+
+  <link name="rear_right_leg">
+    <visual>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry><box size="0.12 0.1 0.35"/></geometry>
+      <origin xyz="0 0 -0.17"/>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.03" ixy="0.0" ixz="0.0" iyy="0.03" iyz="0.0" izz="0.03"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_right_leg_joint" type="fixed">
+    <parent link="body"/>
+    <child link="rear_right_leg"/>
+    <origin xyz="-0.3 -0.1 0.2"/>
+    <axis xyz="1 1 0"/>
+    <limit lower="-1.0" upper="1.0" effort="5" velocity="1"/>
+  </joint>
+
+  <!-- Колёса -->
+  <link name="front_left_wheel">
+    <visual>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="front_left_leg"/>
+    <child link="front_left_wheel"/>
+    <origin xyz="0 0 -0.35"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="front_right_wheel">
+    <visual>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="front_right_leg"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0 0 -0.35"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="rear_left_wheel">
+    <visual>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="rear_left_leg"/>
+    <child link="rear_left_wheel"/>
+    <origin xyz="0 0 -0.35"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="rear_right_wheel">
+    <visual>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <geometry><sphere radius="0.05"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005" iyz="0.0" izz="0.005"/>
+    </inertial>
+  </link>
+
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="rear_right_leg"/>
+    <child link="rear_right_wheel"/>
+    <origin xyz="0 0 -0.35"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- Хвост -->
+  <link name="tail">
+    <visual>
+      <geometry>
+        <cylinder length="0.4" radius="0.02"/>
+      </geometry>
+      <origin rpy="0 1.8 0" xyz="-0.15 0 0"/>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.4" radius="0.02"/>
+      </geometry>
+      <origin rpy="0 1.8 0" xyz="-0.2 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.5"/>
+      <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="tail_joint" type="revolute">
+    <parent link="body"/>
+    <child link="tail"/>
+    <origin xyz="-0.4 0 0.4"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.8" upper="0.8" effort="2.0" velocity="2.0"/>
+  </joint>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-diff-drive-system"
+      name="gz::sim::systems::DiffDrive">
+      <left_joint>front_left_wheel_joint</left_joint>
+      <right_joint>front_right_wheel_joint</right_joint>
+      <wheel_separation>0.2</wheel_separation>
+      <wheel_radius>0.05</wheel_radius>
+      <odom_publish_frequency>1</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+    </plugin>
+
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+        <topic>joint_states</topic>
+        <joint_name>front_left_wheel_joint</joint_name>
+        <joint_name>front_left_wheel_joint</joint_name>
+    </plugin> 
+
+    <plugin
+      filename="gz-sim-joint-controller-system"
+      name="gz::sim::systems::JointController">
+      <joint_name>toholder</joint_name>
+      <initial_velocity>7.0</initial_velocity>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="front_left_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="front_right_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <gazebo reference="rear_left_wheel">
+    <mu1>0.000001</mu1>
+    <mu2>0.000001</mu2>
+  </gazebo>
+
+  <gazebo reference="rear_right_wheel">
+    <mu1>0.000001</mu1>
+    <mu2>0.000001</mu2>
+  </gazebo>
+
+</robot>
