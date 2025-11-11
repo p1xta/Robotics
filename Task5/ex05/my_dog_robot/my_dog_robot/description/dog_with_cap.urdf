@@ -74,6 +74,8 @@
     <limit lower="-1.57" upper="1.57" effort="1.0" velocity="1.0"/>
   </joint>
 
+
+  <!-- Нос -->
   <link name="nose">
     <visual>
       <geometry>
@@ -87,6 +89,37 @@
     <parent link="head"/>
     <child link="nose"/>
     <origin xyz="0.12 0 -0.02"/>
+  </joint>
+
+  <!-- Глаза -->
+  <link name="left_eye">
+    <visual>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <joint name="toleft_eye" type="fixed">
+    <parent link="head"/>
+    <child link="left_eye"/>
+    <origin xyz="0.101 0.05 0.02"/>
+  </joint>
+
+  <link name="right_eye">
+    <visual>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <joint name="toright_eye" type="fixed">
+    <parent link="head"/>
+    <child link="right_eye"/>
+    <origin xyz="0.101 -0.05 0.02"/>
   </joint>
 
   <!-- Кепка -->
