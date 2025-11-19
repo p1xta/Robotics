@@ -1,0 +1,54 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Name: Grid
+      Class: rviz_default_plugins/Grid
+      Enabled: true
+      Cell Size: 1
+      Alpha: 0.5
+      Color: 160;160;164
+    - Name: RobotModel
+      Class: rviz_default_plugins/RobotModel
+      Enabled: true
+      Description Topic: /robot_description
+      Visual Enabled: true
+      TF Prefix: robot_lidar_stop
+    - Name: TF
+      Class: rviz_default_plugins/TF
+      Enabled: true
+      Show Arrows: true
+      Show Axes: true
+      Marker Scale: 0.3
+    - Name: LaserScan
+      Class: rviz_default_plugins/LaserScan
+      Enabled: true
+      Topic: /scan
+      Color: 255;0;0
+      Size (m): 0.05
+      Queue Size: 50
+    - Name: Odometry
+      Class: rviz_default_plugins/Odometry
+      Enabled: true
+      Topic: /odom
+      Color: 0;255;0
+      Trail: 50
+  Enabled: true
+  Global Options:
+    Fixed Frame: robot_lidar_stop/odom
+    Background Color: 48;48;48
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128;128;0
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Target Frame: base_link
